@@ -1,4 +1,4 @@
-const Student = require('../models/Student');
+const { Student, Course } = require('../models');
 
 const isValidStudent = ({ name, email, age }) =>
     Boolean(name) &&
@@ -55,6 +55,28 @@ exports.getStudentById = async (req, res) => {
             return res.status(404).json({
                 message: 'Student not found'
             });
+        }
+
+        return res.status(200).json(student);
+    } catch (error) {
+        return handleDatabaseError(res, error, 'retrieve');
+    }
+};
+
+exports.getStudentCourses = async (req, res) => {
+    const studentId = Number(req.params.id);
+
+    if (!Number.isInteger(studentId) || studentId < 1) {
+        return res.status(400).json({ message: 'Student ID must be a positive integer' });
+    }
+
+    try {
+        const student = await Student.findByPk(studentId, {
+            include: [{ model: Course, as: 'courses', through: { attributes: [] } }]
+        });
+
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
         }
 
         return res.status(200).json(student);

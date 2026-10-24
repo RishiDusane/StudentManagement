@@ -1,10 +1,6 @@
-CREATE DATABASE IF NOT EXISTS student_db;
+CREATE DATABASE IF NOT EXISTS sequelize_demo;
 
-USE student_db;
+USE sequelize_demo;
 
-CREATE TABLE IF NOT EXISTS students (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(150) NOT NULL UNIQUE,
-    age INT NOT NULL
-);
+-- Run the application after selecting this schema.
+-- Sequelize creates Students, Courses, and StudentCourses without dropping existing tables.
